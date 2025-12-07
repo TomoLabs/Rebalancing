@@ -121,11 +121,6 @@ Testnets / custom v4 managers
 
 However:
 
-✅ This code is 100% valid for Uniswap Hook Incubator review.
-✅ The incubator evaluates logic correctness and architecture, not mainnet access.
-
-✅ Compatibility With Uniswap Hook Incubator
-
 This repo satisfies:
 
 ✅ BaseHook inheritance
