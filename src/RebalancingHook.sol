@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.24;
 
 // --------------------
 // ✅ MUST MATCH BaseHook IMPORTS EXACTLY (@uniswap)
@@ -106,3 +106,4 @@ contract RebalancingHook is BaseHook {
         return (this.afterSwap.selector, 0);
     }
 }
+
