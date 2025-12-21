@@ -7,7 +7,6 @@ import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 import {PoolKey} from "v4-core/types/PoolKey.sol";
 import {Currency, CurrencyLibrary} from "v4-core/types/Currency.sol";
 
-
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
@@ -22,8 +21,8 @@ contract LiquidityVault is ReentrancyGuard {
     PoolKey public poolKey;
 
     // ✅ Mainnet-safe Liquidity Accounting
-    int256 public activeLiquidity;       // liquidity units
-    uint256 public totalIdleLiquidity;  // token units
+    int256 public activeLiquidity; // liquidity units
+    uint256 public totalIdleLiquidity; // token units
 
     // ✅ Fixed JIT Liquidity per deployment (SAFE model)
     uint128 public jitLiquidityUnits;
@@ -63,16 +62,15 @@ contract LiquidityVault is ReentrancyGuard {
     // ✅ GOVERNANCE: SET REAL POOL
     // ============================
     function setPoolKey(PoolKey calldata key) external onlyGovernance {
-    require(key.tickSpacing != 0, "INVALID_POOL");
-    poolKey = key;
+        require(key.tickSpacing != 0, "INVALID_POOL");
+        poolKey = key;
 
-    emit PoolKeySet(
-        address(Currency.unwrap(key.currency0)),
-        address(Currency.unwrap(key.currency1)),
-        key.fee
-    );
-}
-
+        emit PoolKeySet(
+            address(Currency.unwrap(key.currency0)),
+            address(Currency.unwrap(key.currency1)),
+            key.fee
+        );
+    }
 
     // ============================
     // ✅ REAL TOKEN DEPOSIT
@@ -157,5 +155,17 @@ contract LiquidityVault is ReentrancyGuard {
 
         emit EmergencyWithdraw(params.liquidityDelta);
         activeLiquidity = 0;
+    }
+
+    function setHook(address _hook) external onlyGovernance {
+        require(_hook != address(0), "INVALID_HOOK");
+        hook = _hook;
+    }
+
+    // ============================
+    // 🧪 TEST-ONLY HELPERS
+    // ============================
+    function __test_setIdleLiquidity(uint256 amount) external {
+        totalIdleLiquidity = amount;
     }
 }

@@ -86,4 +86,10 @@ contract HedgeVault is ReentrancyGuard {
             netOpenInterest = 0;
         }
     }
+
+    function setHook(address _hook) external onlyGovernance {
+    require(_hook != address(0), "INVALID_HOOK");
+    hook = _hook;
+}
+
 }

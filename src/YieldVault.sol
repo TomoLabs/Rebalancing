@@ -61,4 +61,10 @@ contract YieldVault is ReentrancyGuard {
             activeAdapter = best;
         }
     }
+
+    function setHook(address _hook) external onlyGovernance {
+    require(_hook != address(0), "INVALID_HOOK");
+    hook = _hook;
+}
+
 }
