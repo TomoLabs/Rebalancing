@@ -26,9 +26,9 @@ contract YieldVault is ReentrancyGuard {
         governance = _governance;
     }
 
-    // ============================
-    // ✅ GOVERNANCE: REGISTER REAL LRTs
-    // ============================
+    
+    // GOVERNANCE: REGISTER REAL LRTs
+  
     function registerAdapter(address adapter) external onlyGovernance {
         adapters.push(ILRTAdapter(adapter));
 
@@ -37,9 +37,9 @@ contract YieldVault is ReentrancyGuard {
         }
     }
 
-    // ============================
-    // ✅ MAINNET-SAFE EIGENLAYER REBALANCING
-    // ============================
+    
+    // MAINNET-SAFE EIGENLAYER REBALANCING
+ 
     function rebalance() external onlyHook nonReentrant {
         require(address(activeAdapter) != address(0), "NO_ACTIVE_ADAPTER");
 
@@ -68,3 +68,4 @@ contract YieldVault is ReentrancyGuard {
 }
 
 }
+
