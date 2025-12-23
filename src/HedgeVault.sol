@@ -7,10 +7,10 @@ contract HedgeVault is ReentrancyGuard {
     address public hook;
     address public governance;
 
-    // ✅ Track total open hedge exposure (base asset units)
+    // Track total open hedge exposure (base asset units)
     int256 public netOpenInterest;
 
-    // ✅ Emergency pause
+    // Emergency pause
     bool public paused;
 
     modifier onlyHook() {
@@ -33,9 +33,9 @@ contract HedgeVault is ReentrancyGuard {
         governance = _governance;
     }
 
-    // ============================
-    // ✅ CORE HEDGE REBALANCING
-    // ============================
+    
+    //  CORE HEDGE REBALANCING
+    
     function rebalance(int256 delta)
         external
         onlyHook
@@ -51,27 +51,25 @@ contract HedgeVault is ReentrancyGuard {
         }
     }
 
-    // ============================
-    // ✅ OPEN SHORT (GMX / PERP ADAPTER GOES HERE)
-    // ============================
+    
+    //  OPEN SHORT (GMX / PERP ADAPTER GOES HERE)
+    
     function _openShort(uint256 amount) internal {
-        // ✅ TODO: call GMX / Synthetix open short
+        // TODO: call GMX / Synthetix open short
         // Example:
         // perpRouter.openShort(amount);
     }
 
-    // ============================
-    // ✅ CLOSE SHORT
-    // ============================
+    //  CLOSE SHORT
+    
     function _closeShort(uint256 amount) internal {
-        // ✅ TODO: call GMX / Synthetix close short
+        //  TODO: call GMX / Synthetix close short
         // Example:
         // perpRouter.closeShort(amount);
     }
 
-    // ============================
-    // ✅ EMERGENCY CONTROLS
-    // ============================
+    // EMERGENCY CONTROLS
+    
     function pause() external onlyGovernance {
         paused = true;
     }
@@ -93,3 +91,4 @@ contract HedgeVault is ReentrancyGuard {
 }
 
 }
+
