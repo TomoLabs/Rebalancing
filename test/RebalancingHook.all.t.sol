@@ -18,9 +18,9 @@ import "../src/HedgeVault.sol";
 import "../src/YieldVault.sol";
 
 contract RebalancingHookAllTest is Test {
-    /*──────────────────────────────────────────────*
+    
      | CONSTANTS
-     *──────────────────────────────────────────────*/
+     
     address constant GOVERNANCE = address(0x100);
     address constant BASE_TOKEN = address(0x200);
     IPoolManager constant POOL_MANAGER = IPoolManager(address(0xBEEF));
@@ -28,9 +28,8 @@ contract RebalancingHookAllTest is Test {
     address constant CREATE2_DEPLOYER =
         0x4e59b44847b379578588920cA78FbF26c0B4956C;
 
-    /*──────────────────────────────────────────────*
-     | CONTRACTS
-     *──────────────────────────────────────────────*/
+     
+     
     LiquidityVault liquidityVault;
     HedgeVault hedgeVault;
     YieldVault yieldVault;
@@ -112,14 +111,12 @@ contract RebalancingHookAllTest is Test {
         vm.prank(GOVERNANCE);
         liquidityVault.setPoolKey(key);
 
-        // ✅ CRITICAL FIX: seed idle liquidity
+        // CRITICAL FIX: seed idle liquidity
         vm.prank(GOVERNANCE);
         liquidityVault.__test_setIdleLiquidity(1_000);
     }
 
-    /*──────────────────────────────────────────────*
-     | TESTS
-     *──────────────────────────────────────────────*/
+    
     function test_hook_deployment() public {
         assertTrue(address(hook) != address(0));
     }
@@ -148,3 +145,4 @@ contract RebalancingHookAllTest is Test {
         assertEq(liquidityVault.hook(), address(hook));
     }
 }
+
