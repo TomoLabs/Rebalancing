@@ -30,16 +30,16 @@ contract DeployPermissionedRebalancing is Script {
 
         vm.startBroadcast(pk);
 
-        // =====================================================
-        // 🔐 PERMISSIONED UNISWAP v4 POOL MANAGER
+        
+        //  PERMISSIONED UNISWAP v4 POOL MANAGER
         // (same class used by Splitwise)
-        // =====================================================
+        
         IPoolManager poolManager =
             IPoolManager(0xA7B8e01F655C72F2fCf7b0b8F9e0633D5c86B8Dc);
 
-        // =====================================================
-        // 1️⃣ DEPLOY VAULTS (REAL MAINNET CONTRACTS)
-        // =====================================================
+        
+        // DEPLOY VAULTS (REAL MAINNET CONTRACTS)
+        
         LiquidityVault liquidityVault = new LiquidityVault(
             address(0), // hook set later
             governance,
@@ -62,15 +62,15 @@ contract DeployPermissionedRebalancing is Script {
         console.log("HedgeVault:", address(hedgeVault));
         console.log("YieldVault:", address(yieldVault));
 
-        // =====================================================
-        // 2️⃣ HOOK FLAGS
-        // =====================================================
+        
+        //  HOOK FLAGS
+        
         uint160 flags =
             Hooks.BEFORE_SWAP_FLAG | Hooks.AFTER_SWAP_FLAG;
 
-        // =====================================================
-        // 3️⃣ MINE DETERMINISTIC HOOK ADDRESS
-        // =====================================================
+        
+        //  MINE DETERMINISTIC HOOK ADDRESS
+        
         bytes memory constructorArgs = abi.encode(
             poolManager,
             address(liquidityVault),
@@ -87,9 +87,9 @@ contract DeployPermissionedRebalancing is Script {
 
         console.log("Predicted Hook:", predictedHook);
 
-        // =====================================================
-        // 4️⃣ DEPLOY PERMISSIONED HOOK
-        // =====================================================
+        
+        //  DEPLOY PERMISSIONED HOOK
+        
         RebalancingHook hook = new RebalancingHook{salt: salt}(
             poolManager,
             address(liquidityVault),
@@ -104,9 +104,9 @@ contract DeployPermissionedRebalancing is Script {
 
         console.log("RebalancingHook:", address(hook));
 
-        // =====================================================
-        // 5️⃣ WIRE HOOK → VAULTS (GOVERNANCE)
-        // =====================================================
+        
+        //  WIRE HOOK → VAULTS (GOVERNANCE)
+        
         liquidityVault.setHook(address(hook));
         hedgeVault.setHook(address(hook));
         yieldVault.setHook(address(hook));
@@ -114,3 +114,4 @@ contract DeployPermissionedRebalancing is Script {
         vm.stopBroadcast();
     }
 }
+
