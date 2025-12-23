@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-// --------------------
-// ✅ MUST MATCH BaseHook IMPORTS EXACTLY (@uniswap)
-// --------------------
+
+// MUST MATCH BaseHook IMPORTS EXACTLY (@uniswap)
+
 
 import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 import {PoolKey} from "v4-core/types/PoolKey.sol";
@@ -14,9 +14,9 @@ import {Hooks} from "v4-core/libraries/Hooks.sol";
 
 import {BaseHook} from "v4-periphery/utils/BaseHook.sol";
 
-// --------------------
+
 // TomoLabs Imports
-// --------------------
+
 
 import "./LiquidityVault.sol";
 import "./HedgeVault.sol";
@@ -30,7 +30,7 @@ contract RebalancingHook is BaseHook {
 
     uint256 public jitThresholdBps = 100; // 1%
 
-    // ✅ CORRECT CONSTRUCTOR (NO TYPE MISMATCH)
+    
     constructor(
         IPoolManager _poolManager,
         address _liquidityVault,
@@ -42,9 +42,9 @@ contract RebalancingHook is BaseHook {
         yieldVault = YieldVault(_yieldVault);
     }
 
-    // ================================
-    // ✅ HOOK PERMISSIONS (SAFE)
-    // ================================
+
+    //  HOOK PERMISSIONS (SAFE)
+ 
     function getHookPermissions()
         public
         pure
@@ -57,9 +57,8 @@ contract RebalancingHook is BaseHook {
         return p;
     }
 
-    // ================================
-    // ✅ INTERNAL BEFORE SWAP
-    // ================================
+    //  INTERNAL BEFORE SWAP
+   
     function _beforeSwap(
         address sender,
         PoolKey calldata key,
@@ -83,9 +82,8 @@ contract RebalancingHook is BaseHook {
         return (this.beforeSwap.selector, BeforeSwapDelta.wrap(0), 0);
     }
 
-    // ================================
-    // ✅ INTERNAL AFTER SWAP
-    // ================================
+    //  INTERNAL AFTER SWAP
+    
     function _afterSwap(
         address sender,
         PoolKey calldata key,
@@ -106,4 +104,5 @@ contract RebalancingHook is BaseHook {
         return (this.afterSwap.selector, 0);
     }
 }
+
 
