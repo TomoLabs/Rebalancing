@@ -28,9 +28,9 @@ contract FeeToSplitter is ReentrancyGuard {
         governance = _governance;
     }
 
-    // ============================
-    // ✅ GOVERNANCE: SET RECIPIENTS
-    // ============================
+    
+    // GOVERNANCE: SET RECIPIENTS
+    
     function setRecipients(Recipient[] calldata _recipients)
         external
         onlyGovernance
@@ -47,9 +47,9 @@ contract FeeToSplitter is ReentrancyGuard {
         emit RecipientsUpdated();
     }
 
-    // ============================
-    // ✅ SPLIT NATIVE ETH FEES
-    // ============================
+    
+    //  SPLIT NATIVE ETH FEES
+    
     function splitETH()
         external
         payable
@@ -67,9 +67,9 @@ contract FeeToSplitter is ReentrancyGuard {
         emit EthSplit(amount);
     }
 
-    // ============================
-    // ✅ SPLIT ERC20 FEES (v4 SAFE)
-    // ============================
+    
+    // SPLIT ERC20 FEES (v4 SAFE)
+    
     function splitERC20(address token, uint256 amount)
         external
         nonReentrant
@@ -88,3 +88,4 @@ contract FeeToSplitter is ReentrancyGuard {
 
     receive() external payable {}
 }
+
