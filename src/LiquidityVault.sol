@@ -17,17 +17,17 @@ contract LiquidityVault is ReentrancyGuard {
     IPoolManager public poolManager;
     IERC20 public baseToken; // e.g. USDC
 
-    // ✅ Mainnet-safe Pool Wiring
+    // Mainnet-safe Pool Wiring
     PoolKey public poolKey;
 
-    // ✅ Mainnet-safe Liquidity Accounting
+    // Mainnet-safe Liquidity Accounting
     int256 public activeLiquidity; // liquidity units
     uint256 public totalIdleLiquidity; // token units
 
-    // ✅ Fixed JIT Liquidity per deployment (SAFE model)
+    // Fixed JIT Liquidity per deployment (SAFE model)
     uint128 public jitLiquidityUnits;
 
-    // ✅ Analytics
+    // Analytics
     event Deposited(address indexed user, uint256 amount);
     event PoolKeySet(address currency0, address currency1, uint24 fee);
     event JITDeployed(uint256 amount, int256 liquidityDelta);
@@ -58,9 +58,9 @@ contract LiquidityVault is ReentrancyGuard {
         jitLiquidityUnits = _jitLiquidityUnits;
     }
 
-    // ============================
-    // ✅ GOVERNANCE: SET REAL POOL
-    // ============================
+    
+    // GOVERNANCE: SET REAL POOL
+    
     function setPoolKey(PoolKey calldata key) external onlyGovernance {
         require(key.tickSpacing != 0, "INVALID_POOL");
         poolKey = key;
@@ -72,9 +72,9 @@ contract LiquidityVault is ReentrancyGuard {
         );
     }
 
-    // ============================
-    // ✅ REAL TOKEN DEPOSIT
-    // ============================
+    
+    // REAL TOKEN DEPOSIT
+    
     function deposit(uint256 amount) external nonReentrant {
         require(amount > 0, "ZERO_AMOUNT");
 
@@ -84,9 +84,9 @@ contract LiquidityVault is ReentrancyGuard {
         emit Deposited(msg.sender, amount);
     }
 
-    // ============================
-    // ✅ JIT ACTIVATION CHECK
-    // ============================
+    
+    //  JIT ACTIVATION CHECK
+
     function shouldDeployJIT(
         uint256 swapAmount,
         uint256 thresholdBps
@@ -94,9 +94,9 @@ contract LiquidityVault is ReentrancyGuard {
         return (swapAmount * thresholdBps) / 10_000 >= 1;
     }
 
-    // ============================
-    // ✅ MAINNET-SAFE JIT MINT
-    // ============================
+    
+    // MAINNET-SAFE JIT MINT
+    
     function deployJIT(uint256 amount) external onlyHook nonReentrant {
         require(poolKey.tickSpacing != 0, "POOL_NOT_SET");
         require(activeLiquidity == 0, "JIT_ALREADY_ACTIVE");
@@ -117,9 +117,9 @@ contract LiquidityVault is ReentrancyGuard {
         emit JITDeployed(amount, params.liquidityDelta);
     }
 
-    // ============================
-    // ✅ MAINNET-SAFE JIT BURN (HOOK)
-    // ============================
+    
+    // MAINNET-SAFE JIT BURN (HOOK)
+    
     function withdrawJIT() external onlyHook nonReentrant {
         require(poolKey.tickSpacing != 0, "POOL_NOT_SET");
         require(activeLiquidity > 0, "NO_ACTIVE_LIQUIDITY");
@@ -137,9 +137,9 @@ contract LiquidityVault is ReentrancyGuard {
         activeLiquidity = 0;
     }
 
-    // ============================
-    // ✅ GOVERNANCE EMERGENCY EXIT
-    // ============================
+    
+    // GOVERNANCE EMERGENCY EXIT
+    
     function forceWithdraw() external onlyGovernance nonReentrant {
         require(poolKey.tickSpacing != 0, "POOL_NOT_SET");
         require(activeLiquidity > 0, "NO_ACTIVE_LIQUIDITY");
@@ -162,10 +162,11 @@ contract LiquidityVault is ReentrancyGuard {
         hook = _hook;
     }
 
-    // ============================
-    // 🧪 TEST-ONLY HELPERS
-    // ============================
+    
+    // TEST-ONLY HELPERS
+    
     function __test_setIdleLiquidity(uint256 amount) external {
         totalIdleLiquidity = amount;
     }
 }
+
